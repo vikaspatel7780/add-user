@@ -22,6 +22,7 @@ app.post("/adduser",async (req,res)=>{
   res.send(result)
 })
 
+
 app.get("/alluser",async(req,res)=>{
     const products=await User.find();
     if(products.length>0){
