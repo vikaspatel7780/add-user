@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -9,8 +8,11 @@ const Signup = () => {
   const [address, setAddress] = useState("");
   const [mobile, setMobile] = useState("");
   const [message, setMessage] = useState("");
+  
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("https://add-user-1l6p.onrender.com/adduser", {
         method: "POST",
@@ -18,15 +20,21 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: name,
-          address: address,
-          mobile: mobile,
-          email: email,
-          message: message,
+          name,
+          address,
+          mobile,
+          email,
+          message,
         }),
       });
 
-      // Log the status and response body for debugging
+      if (response.ok) {
+        toast.success("User added successfully!");
+        navigate("/"); // Redirect to the home page
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error: ${errorData.message}`);
+      }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       toast.error(`Error: ${error.message}`);
@@ -62,36 +70,33 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block mb-2" htmlFor="password">
+            <label className="block mb-2" htmlFor="mobile">
               Mobile Number
             </label>
             <input
               type="text"
               value={mobile}
-              autoComplete="current-password"
               onChange={(e) => setMobile(e.target.value)}
               className="w-full border border-gray-300 rounded-md py-2 px-4"
             />
           </div>
           <div>
-            <label className="block mb-2" htmlFor="email">
+            <label className="block mb-2" htmlFor="address">
               Address
             </label>
             <input
               type="text"
               value={address}
-              autoComplete="username"
               onChange={(e) => setAddress(e.target.value)}
               className="w-full border border-gray-300 rounded-md py-2 px-4"
             />
           </div>
           <div>
-            <label className="block mb-2" htmlFor="password">
+            <label className="block mb-2" htmlFor="message">
               Message
             </label>
             <textarea
               value={message}
-              autoComplete="new-password"
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border border-gray-300 rounded-md py-2 px-4"
             />

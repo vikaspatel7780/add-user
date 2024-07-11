@@ -11,20 +11,33 @@ const USER_LIST = () => {
   }, []);
 
   const getUsers = async () => {
-    let result = await fetch("https://add-user-1l6p.onrender.com/alluser");
-    result = await result.json();
-    setUserList(result);
-    sortUsers(result, sortOrder); // Ensure initial sorting
+    try {
+      let result = await fetch("https://add-user-1l6p.onrender.com/alluser");
+      result = await result.json();
+      setUserList(result);
+      sortUsers(result, sortOrder); // Ensure initial sorting
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   const searchHandle = async (event) => {
     const key = event.target.value;
     if (key) {
-      let result = await fetch(`https://add-user-1l6p.onrender.com/search/${key}`);
-      result = await result.json();
-      if (result) setUserList(result);
+      try {
+        let result = await fetch(`https://add-user-1l6p.onrender.com/search/${key}`);
+        result = await result.json();
+        if (result.length) {
+          setUserList(result);
+        } else {
+          setUserList([]);
+        }
+      } catch (error) {
+        console.error("Error during search:", error);
+        setUserList([]);
+      }
     } else {
-        getUsers();
+      getUsers();
     }
   };
 
@@ -57,12 +70,12 @@ const USER_LIST = () => {
       <h3 className="text-2xl font-bold mb-4">User List</h3>
       <input
         placeholder="Search"
-        className="search p-2 border rounded mb-4 w-30 text-center"
+        className="search p-2 border rounded mb-4 w-full max-w-xs text-center"
         onChange={searchHandle}
       />
-      <div className="mb-4">
+      <div className="mb-4 flex justify-center space-x-2">
         <button
-          className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+          className="px-4 py-2 bg-blue-500 text-white rounded"
           onClick={() => setSortOrder("asc")}
         >
           Sort A-Z
@@ -105,12 +118,12 @@ const USER_LIST = () => {
         </tbody>
       </table>
       {/* Pagination */}
-      <div className="mb-10">
+      <div className="mb-10 flex justify-center flex-wrap">
         {Array.from({ length: Math.ceil(userList.length / itemsPerPage) }, (_, index) => (
           <button
             key={index}
             onClick={() => paginate(index + 1)}
-            className={`mx-1 px-3 py-1 bg-blue-500 text-white rounded ${
+            className={`mx-1 my-1 px-3 py-1 bg-blue-500 text-white rounded ${
               currentPage === index + 1 ? 'bg-blue-700' : ''
             }`}
           >
