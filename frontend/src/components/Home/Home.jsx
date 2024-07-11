@@ -9,9 +9,10 @@ const USER_LIST = () => {
   useEffect(() => {
     getUsers();
   }, []);
-
+const url="https://add-user-1l6p.onrender.com"
   const getUsers = async () => {
-    let result = await fetch("http://localhost:2000/alluser");
+    
+    let result = await fetch(url+ "/alluser");
     result = await result.json();
     setUserList(result);
     sortUsers(result, sortOrder); // Ensure initial sorting
@@ -20,7 +21,7 @@ const USER_LIST = () => {
   const searchHandle = async (event) => {
     const key = event.target.value;
     if (key) {
-      let result = await fetch(`http://localhost:2000/search/${key}`);
+      let result = await fetch(`${url}/search/${key}`);
       result = await result.json();
       if (result) setUserList(result);
     } else {

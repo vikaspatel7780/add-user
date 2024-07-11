@@ -17,7 +17,7 @@ app.use(cors())
 
 app.post("/adduser",async (req,res)=>{
     let user = new User(req.body);   // from frontend user are send data and create a models for users
-  console.log(req.body)
+  // console.log(req.body)
   let result=await user.save();    // save the database 
   res.send(result)
 })

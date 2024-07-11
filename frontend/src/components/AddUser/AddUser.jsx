@@ -11,8 +11,9 @@ const Signup = () => {
   const [message, setMessage] = useState("");
 
   const submitHandler = async (e) => {
+    const url="https://add-user-1l6p.onrender.com"
     try {
-      const response = await fetch("http://localhost:2000/adduser", {
+      const response = await fetch(url+"/adduser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
