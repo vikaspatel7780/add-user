@@ -5,7 +5,6 @@ import Home from "./components/Home/Home";
 import About from "./components/AddUser/AddUser";
 import {Toaster} from "react-hot-toast"
 function App() {
-  
 
   return (
     <>
