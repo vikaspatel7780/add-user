@@ -69,7 +69,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-       
+      
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center">
             © 2024 Vikas Patel. All Rights Reserved.
